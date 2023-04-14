@@ -2,8 +2,8 @@ import requests
 from lxml import html, etree
 
 
-page_url = "https://www.softwarestudio.com.pl"
-main_url_name = "softwarestudio.com.pl"
+page_url = "https://wokamid.pl"#https://www.softwarestudio.com.pl"
+main_url_name = "wokamid.pl"#softwarestudio.com.pl"
 baza_rozszerzen = ["jpg", "svg", "png", "ebp", ".js", "peg"]
 
 
@@ -56,6 +56,10 @@ i = 0
 while urls_holder != []:
     last_url = urls_holder[0]
     html_str_in_processing = get_html_str(last_url)
+    if html_str_in_processing in wrong_url or html_str_in_processing in good_url:
+        wrong_url.append(html_str_in_processing)
+        html_str_in_processing = ""
+        continue
     if html_str_in_processing == "":
         wrong_url.append(last_url)
         urls_holder.remove(last_url)
@@ -74,14 +78,18 @@ while urls_holder != []:
             if link in wrong_url or link in good_url:
                 urls_holder.remove(link)
     
-    i+=1
-    if i == 100:
-        print(urls_holder)
-        break
+    # i+=1
+    # if i == 100:
+    #     print(urls_holder)
+    #     break
     
     urls_holder = list(dict.fromkeys(urls_holder))
-    print(len(urls_holder))
-    print(len(good_url))
+    print("wrong_url {}".format(wrong_url))
+    print("good_url {}".format(good_url))
+    print("urls_holder {}".format(urls_holder))
+    print("holder {}".format(holder))
+    # print(len(urls_holder))
+    # print(len(good_url))
     
 
 print(good_url)
