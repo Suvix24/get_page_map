@@ -54,48 +54,22 @@ wrong_url = []
 good_url = []
 i = 0
 while urls_holder != []:
-    last_url = urls_holder[0]
-    html_str_in_processing = get_html_str(last_url)
-    if html_str_in_processing in wrong_url or html_str_in_processing in good_url:
-        wrong_url.append(html_str_in_processing)
-        html_str_in_processing = ""
-        continue
-    if html_str_in_processing == "":
-        wrong_url.append(last_url)
-        urls_holder.remove(last_url)
-    else:
-        if last_url not in good_url:
-            good_url.append(last_url)
-             
-        holder = get_full_links_base(html_str_in_processing)
-        # if i == 40:
-        #     print(holder)
-        for link in holder:
-            if link not in urls_holder:
-                urls_holder.append(link)
-                
-        for link in urls_holder:
-            if link in wrong_url or link in good_url:
-                urls_holder.remove(link)
-    
-    # i+=1
-    # if i == 100:
-    #     print(urls_holder)
-    #     break
-    
-    urls_holder = list(dict.fromkeys(urls_holder))
-    print("wrong_url {}".format(wrong_url))
-    print("good_url {}".format(good_url))
-    print("urls_holder {}".format(urls_holder))
-    print("holder {}".format(holder))
-    # print(len(urls_holder))
-    # print(len(good_url))
-    
+    holder = []
+    for link in urls_holder:
+        print(link)
+        html_from_link = get_html_str(link)
+        if html_from_link == "":
+            wrong_url.append(link)
+        else:
+            good_url.append(link)
+        print(get_full_links_base(html_from_link))
+        holder.append(get_full_links_base(html_from_link))
+        
+        for url_from_holder in holder:
+            urls_holder = []
+            if url_from_holder not in good_url or url_from_holder not in wrong_url:
+                urls_holder.append(url_from_holder)
 
+    # urls_holder = list(dict.fromkeys(urls_holder))
+    print(len(good_url))
 print(good_url)
-print(len(good_url))
-
-
-
-
-
