@@ -54,22 +54,26 @@ wrong_url = []
 good_url = []
 i = 0
 while urls_holder != []:
-    holder = []
     for link in urls_holder:
-        print(link)
         html_from_link = get_html_str(link)
         if html_from_link == "":
             wrong_url.append(link)
         else:
             good_url.append(link)
-        print(get_full_links_base(html_from_link))
-        holder.append(get_full_links_base(html_from_link))
         
-        for url_from_holder in holder:
-            urls_holder = []
-            if url_from_holder not in good_url or url_from_holder not in wrong_url:
-                urls_holder.append(url_from_holder)
+        if get_full_links_base(html_from_link) != []:
+            holder = get_full_links_base(html_from_link)
+        
+    for url_from_holder in holder:
+        if url_from_holder not in good_url or url_from_holder not in wrong_url:
+            urls_holder.append(url_from_holder)
 
-    # urls_holder = list(dict.fromkeys(urls_holder))
+    urls_holder = [*set(urls_holder)]
+    for url in urls_holder:
+        if url in wrong_url or url in good_url:
+            urls_holder.remove(url)
+            
     print(len(good_url))
+    print(urls_holder)
+    print(len(wrong_url))
 print(good_url)
