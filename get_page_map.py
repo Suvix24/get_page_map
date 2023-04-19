@@ -35,7 +35,7 @@ def get_full_links_base(html_str):
 
 def get_html_str(url_to_get_page):
     try:
-        request = requests.get(url_to_get_page)
+        request = requests.get(url_to_get_page, timeout=(3.05, 27))
         if request.status_code == 200:
             page = etree.HTML(request.content)
             html_in_bits = etree.tostring(page)
@@ -78,8 +78,21 @@ while urls_holder != []:
         if url in wrong_url or url in good_url:
             urls_holder.remove(url)
             
-    # print(len(good_url))
+    print(len(good_url))
     # print(urls_holder)
-    # print(len(wrong_url))
-print(good_url)
-print(wrong_url)
+    print(len(wrong_url))
+# print(good_url)
+# print(wrong_url)
+
+good_url = [*set(good_url)]
+
+import openpyxl
+
+urls_base = openpyxl.Workbook()
+urls_base_sheet = urls_base.active
+
+i = 1
+for item in good_url:
+    urls_base_sheet.cell(column=1, row=i, value=item)
+    i+=1
+urls_base.save(filename='urls_base.xlsx')
