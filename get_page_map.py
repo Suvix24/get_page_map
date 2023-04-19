@@ -2,8 +2,8 @@ import requests
 from lxml import html, etree
 
 
-page_url = "https://wokamid.pl"#https://www.softwarestudio.com.pl"
-main_url_name = "wokamid.pl"#softwarestudio.com.pl"
+page_url = "https://www.softwarestudio.com.pl"#https://wokamid.pl
+main_url_name = "softwarestudio.com.pl"#wokamid.pl
 baza_rozszerzen = ["jpg", "svg", "png", "ebp", ".js", "peg"]
 
 
@@ -52,17 +52,22 @@ def get_html_str(url_to_get_page):
 urls_holder = [page_url]
 wrong_url = []
 good_url = []
-i = 0
+
 while urls_holder != []:
+    i = 0
     for link in urls_holder:
+        # i += 1
+        # print(i)
         html_from_link = get_html_str(link)
         if html_from_link == "":
             wrong_url.append(link)
         else:
             good_url.append(link)
         
-        if get_full_links_base(html_from_link) != []:
-            holder = get_full_links_base(html_from_link)
+    if get_full_links_base(html_from_link) != []:
+        holder = get_full_links_base(html_from_link)
+    else:
+        holder = []
         
     for url_from_holder in holder:
         if url_from_holder not in good_url or url_from_holder not in wrong_url:
@@ -73,7 +78,8 @@ while urls_holder != []:
         if url in wrong_url or url in good_url:
             urls_holder.remove(url)
             
-    print(len(good_url))
-    print(urls_holder)
-    print(len(wrong_url))
+    # print(len(good_url))
+    # print(urls_holder)
+    # print(len(wrong_url))
 print(good_url)
+print(wrong_url)
